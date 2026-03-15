@@ -17,7 +17,7 @@ const ProductDetail = () => {
 
   const fetchProductDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const res = await axios.get(`/api/products/${id}`);
       setProductData(res.data);
       setLoading(false);
     } catch (error) {
@@ -33,7 +33,7 @@ const ProductDetail = () => {
     }
     
     try {
-      await axios.post('http://localhost:5000/api/cart/add', 
+      await axios.post('/api/cart/add', 
         { productId: id, quantity: 1 },
         { headers: { 'x-auth-token': localStorage.getItem('token') } }
       );
@@ -51,7 +51,7 @@ const ProductDetail = () => {
     }
     
     try {
-      await axios.post(`http://localhost:5000/api/wishlist/add/${id}`, {}, {
+      await axios.post(`/api/wishlist/add/${id}`, {}, {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
       alert('✅ Added to wishlist!');

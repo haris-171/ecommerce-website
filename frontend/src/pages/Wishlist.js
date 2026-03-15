@@ -16,7 +16,7 @@ const Wishlist = () => {
 
   const fetchWishlist = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/wishlist', {
+      const res = await axios.get('/api/wishlist', {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
       setWishlist(res.data);
@@ -29,7 +29,7 @@ const Wishlist = () => {
 
   const removeFromWishlist = async (productId) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/api/wishlist/remove/${productId}`, {
+      const res = await axios.delete(`/api/wishlist/remove/${productId}`, {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
       setWishlist(res.data);
@@ -40,7 +40,7 @@ const Wishlist = () => {
 
   const addToCart = async (productId) => {
     try {
-      await axios.post('http://localhost:5000/api/cart/add', 
+      await axios.post('/api/cart/add', 
         { productId, quantity: 1 },
         { headers: { 'x-auth-token': localStorage.getItem('token') } }
       );

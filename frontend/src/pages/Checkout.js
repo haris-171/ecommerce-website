@@ -19,7 +19,7 @@ const Checkout = () => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/cart', {
+      const res = await axios.get('/api/cart', {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
       setCart(res.data);
@@ -33,7 +33,7 @@ const Checkout = () => {
   const handleCheckout = async () => {
     setProcessing(true);
     try {
-      await axios.post('http://localhost:5000/api/orders', 
+      await axios.post('/api/orders', 
         { paymentMethod: 'Cash on Delivery' },
         { headers: { 'x-auth-token': localStorage.getItem('token') } }
       );

@@ -17,7 +17,7 @@ const ProductReviews = ({ productId }) => {
 
   const fetchProductDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/products/${productId}`);
+      const res = await axios.get(`/api/products/${productId}`);
       setReviews(res.data.reviews);
       setAverageRating(res.data.averageRating);
       setReviewCount(res.data.reviewCount);
@@ -37,7 +37,7 @@ const ProductReviews = ({ productId }) => {
 
     setSubmitting(true);
     try {
-      await axios.post(`http://localhost:5000/api/products/${productId}/reviews`, 
+      await axios.post(`/api/products/${productId}/reviews`, 
         newReview,
         { headers: { 'x-auth-token': localStorage.getItem('token') } }
       );

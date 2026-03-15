@@ -17,7 +17,7 @@ const Cart = () => {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/cart', {
+      const res = await axios.get('/api/cart', {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
       setCart(res.data);
@@ -32,7 +32,7 @@ const Cart = () => {
     if (newQuantity < 1) return;
     
     try {
-      const res = await axios.put(`http://localhost:5000/api/cart/update/${productId}`,
+      const res = await axios.put(`/api/cart/update/${productId}`,
         { quantity: newQuantity },
         { headers: { 'x-auth-token': localStorage.getItem('token') } }
       );
@@ -44,7 +44,7 @@ const Cart = () => {
 
   const removeItem = async (productId) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/api/cart/remove/${productId}`, {
+      const res = await axios.delete(`/api/cart/remove/${productId}`, {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
       setCart(res.data);
