@@ -113,9 +113,9 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            <p className="muted">{product.description}</p>
+            <p className="muted">{product.description || 'No description available.'}</p>
 
-            <div className="price">${product.price.toFixed(2)}</div>
+            <div className="price">${Number(product.price || 0).toFixed(2)}</div>
 
             <div className="stack">
               <button className="btn btn--primary btn--block" onClick={addToCart}>

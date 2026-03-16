@@ -16,8 +16,9 @@ const Products = () => {
   const fetchProducts = useCallback(async () => {
     try {
       const res = await axios.get('/api/products');
-      setProducts(res.data);
-      setFilteredProducts(res.data);
+      const list = Array.isArray(res.data) ? res.data : [];
+      setProducts(list);
+      setFilteredProducts(list);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -149,9 +150,9 @@ const Products = () => {
                     />
                     <h3>{product.title}</h3>
                     <p className="muted">
-                      {product.description.substring(0, 80)}...
+                      {(product.description || '').substring(0, 80)}...
                     </p>
-                    <div className="price">${product.price.toFixed(2)}</div>
+                    <div className="price">${Number(product.price || 0).toFixed(2)}</div>
                     <button
                       className="btn btn--primary btn--block"
                       onClick={(e) => addToCart(product._id, e)}
