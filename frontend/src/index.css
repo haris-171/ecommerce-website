@@ -191,6 +191,12 @@ a {
   letter-spacing: 0.3px;
 }
 
+.brand__logo {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
 .nav__links {
   display: flex;
   flex-wrap: wrap;

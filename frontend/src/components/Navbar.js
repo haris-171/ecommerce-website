@@ -15,7 +15,7 @@ const Navbar = () => {
     <nav className="nav">
       <div className="nav__inner">
         <Link to="/" className="brand">
-          ðŸ›ï¸ MyShop
+          <img src="/shop-logo.svg" alt="MyShop" className="brand__logo" />
         </Link>
 
         <div className="nav__links">
