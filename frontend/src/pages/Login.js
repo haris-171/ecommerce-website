@@ -19,69 +19,46 @@ const Login = () => {
     }
   };
 
-  const formStyle = {
-    maxWidth: '400px',
-    margin: '2rem auto',
-    padding: '2rem',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-    borderRadius: '8px'
-  };
-
-  const inputStyle = {
-    width: '100%',
-    padding: '0.5rem',
-    marginBottom: '1rem',
-    borderRadius: '4px',
-    border: '1px solid #ddd'
-  };
-
   return (
-    <div style={formStyle}>
-      <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Login</h2>
-      {error && (
-        <div style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>
-          {error}
+    <div className="page">
+      <div className="container">
+        <div className="form-card">
+          <h2 className="form-title">Welcome back</h2>
+          {error && (
+            <div className="empty-state" style={{ background: 'rgba(239,68,68,0.2)' }}>
+              {error}
+            </div>
+          )}
+          <form onSubmit={handleSubmit} className="stack">
+            <div className="form-field">
+              <label>Email</label>
+              <input
+                type="email"
+                className="input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label>Password</label>
+              <input
+                type="password"
+                className="input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn--primary btn--block">
+              Login
+            </button>
+          </form>
+          <p className="muted" style={{ textAlign: 'center' }}>
+            Don't have an account? <Link to="/register">Register</Link>
+          </p>
         </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            style={inputStyle}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            style={inputStyle}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            backgroundColor: '#1976d2',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Login
-        </button>
-      </form>
-      <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
+      </div>
     </div>
   );
 };

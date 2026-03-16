@@ -2,9 +2,13 @@ import React from 'react';
 
 const AdminDashboard = () => {
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Admin Dashboard</h1>
-      <p>Admin features will appear here!</p>
+    <div className="page">
+      <div className="container">
+        <div className="summary-card stack">
+          <h1>Admin Dashboard</h1>
+          <p className="muted">Admin features will appear here.</p>
+        </div>
+      </div>
     </div>
   );
 };

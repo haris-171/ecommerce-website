@@ -30,7 +30,7 @@ const Cart = () => {
 
   const updateQuantity = async (productId, newQuantity) => {
     if (newQuantity < 1) return;
-    
+
     try {
       const res = await axios.put(`/api/cart/update/${productId}`,
         { quantity: newQuantity },
@@ -60,130 +60,81 @@ const Cart = () => {
     }, 0);
   };
 
-  const containerStyle = {
-    maxWidth: '800px',
-    margin: '0 auto',
-    padding: '2rem'
-  };
-
-  const cartItemStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1rem',
-    borderBottom: '1px solid #ddd'
-  };
-
-  const itemDetailsStyle = {
-    flex: 2
-  };
-
-  const quantityControlStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem'
-  };
-
-  const buttonStyle = {
-    backgroundColor: '#1976d2',
-    color: 'white',
-    border: 'none',
-    padding: '0.25rem 0.5rem',
-    borderRadius: '4px',
-    cursor: 'pointer'
-  };
-
-  const removeButtonStyle = {
-    backgroundColor: '#dc004e',
-    color: 'white',
-    border: 'none',
-    padding: '0.25rem 0.5rem',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginLeft: '1rem'
-  };
-
-  const checkoutButtonStyle = {
-    backgroundColor: '#4caf50',
-    color: 'white',
-    border: 'none',
-    padding: '1rem 2rem',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '1.1rem',
-    marginTop: '2rem',
-    width: '100%'
-  };
-
   if (!user) {
     return (
-      <div style={containerStyle}>
-        <h2>Please login to view your cart</h2>
+      <div className="page">
+        <div className="container">
+          <div className="empty-state">Please login to view your cart</div>
+        </div>
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div style={containerStyle}>
-        <h2>Loading cart...</h2>
+      <div className="page">
+        <div className="container">
+          <div className="empty-state">Loading cart...</div>
+        </div>
       </div>
     );
   }
 
   if (!cart || !cart.items || cart.items.length === 0) {
     return (
-      <div style={containerStyle}>
-        <h2>Your cart is empty</h2>
+      <div className="page">
+        <div className="container">
+          <div className="empty-state">Your cart is empty</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={containerStyle}>
-      <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        Shopping Cart
-      </h1>
+    <div className="page">
+      <div className="container stack">
+        <h1>Shopping Cart</h1>
 
-      {cart.items.map(item => (
-        <div key={item.product._id} style={cartItemStyle}>
-          <div style={itemDetailsStyle}>
-            <h3>{item.product.title}</h3>
-            <p>Price: ${item.product.price}</p>
-          </div>
-          
-          <div style={quantityControlStyle}>
-            <button 
-              style={buttonStyle}
-              onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
-            >
-              -
-            </button>
-            <span>{item.quantity}</span>
-            <button 
-              style={buttonStyle}
-              onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
-            >
-              +
-            </button>
-            <button 
-              style={removeButtonStyle}
-              onClick={() => removeItem(item.product._id)}
-            >
-              Remove
-            </button>
+        <div className="summary-card">
+          <div className="grid-list">
+            {cart.items.map(item => (
+              <div key={item.product._id} className="filters__row" style={{ justifyContent: 'space-between' }}>
+                <div>
+                  <h3 style={{ marginBottom: '0.25rem' }}>{item.product.title}</h3>
+                  <span className="muted">Price: ${item.product.price}</span>
+                </div>
+                <div className="filters__row">
+                  <button
+                    className="btn btn--secondary"
+                    onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
+                  >
+                    -
+                  </button>
+                  <span>{item.quantity}</span>
+                  <button
+                    className="btn btn--secondary"
+                    onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="btn btn--danger"
+                    onClick={() => removeItem(item.product._id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
 
-      <div style={{ marginTop: '2rem', textAlign: 'right' }}>
-        <h2>Total: ${calculateTotal().toFixed(2)}</h2>
-        <button 
-          style={checkoutButtonStyle}
-          onClick={() => navigate('/checkout')}
-        >
-          Proceed to Checkout
-        </button>
+        <div className="summary-card stack">
+          <h2>Total: ${calculateTotal().toFixed(2)}</h2>
+          <button className="btn btn--success btn--block" onClick={() => navigate('/checkout')}>
+            Proceed to Checkout
+          </button>
+        </div>
       </div>
     </div>
   );

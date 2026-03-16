@@ -15,13 +15,13 @@ import Wishlist from './pages/Wishlist';
 
 const NotFound = () => {
   return (
-    <div style={{ 
-      textAlign: 'center', 
-      padding: '4rem',
-      color: '#2c3e50'
-    }}>
-      <h1>404 - Page Not Found</h1>
-      <p>The page you're looking for doesn't exist.</p>
+    <div className="page">
+      <div className="container">
+        <div className="empty-state">
+          <h1>404 - Page Not Found</h1>
+          <p>The page you're looking for doesn't exist.</p>
+        </div>
+      </div>
     </div>
   );
 };

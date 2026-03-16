@@ -14,7 +14,10 @@ const ProductDetail = () => {
   const fetchProductDetails = useCallback(async () => {
     try {
       const res = await axios.get(`/api/products/${id}`);
-      setProductData(res.data);
+      const payload = res.data?.product
+        ? res.data
+        : { product: res.data, reviews: [], averageRating: 0, reviewCount: 0 };
+      setProductData(payload);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -31,16 +34,16 @@ const ProductDetail = () => {
       alert('Please login to add items to cart');
       return;
     }
-    
+
     try {
-      await axios.post('/api/cart/add', 
+      await axios.post('/api/cart/add',
         { productId: id, quantity: 1 },
         { headers: { 'x-auth-token': localStorage.getItem('token') } }
       );
-      alert('✅ Product added to cart!');
+      alert('âœ… Product added to cart!');
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('❌ Failed to add to cart');
+      alert('âŒ Failed to add to cart');
     }
   };
 
@@ -49,94 +52,37 @@ const ProductDetail = () => {
       alert('Please login to add items to wishlist');
       return;
     }
-    
+
     try {
       await axios.post(`/api/wishlist/add/${id}`, {}, {
         headers: { 'x-auth-token': localStorage.getItem('token') }
       });
-      alert('✅ Added to wishlist!');
+      alert('âœ… Added to wishlist!');
     } catch (error) {
       console.error('Error adding to wishlist:', error);
     }
   };
 
   const renderStars = (rating) => {
-    return '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
-  };
-
-  const containerStyle = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '2rem'
-  };
-
-  const productContainerStyle = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '3rem',
-    marginBottom: '2rem'
-  };
-
-  const imageStyle = {
-    width: '100%',
-    height: 'auto',
-    borderRadius: '8px',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-  };
-
-  const ratingStyle = {
-    color: '#f39c12',
-    fontSize: '1.2rem',
-    marginBottom: '1rem'
-  };
-
-  const priceStyle = {
-    fontSize: '2rem',
-    fontWeight: 'bold',
-    color: '#27ae60',
-    margin: '1rem 0'
-  };
-
-  const buttonContainerStyle = {
-    display: 'flex',
-    gap: '1rem',
-    marginTop: '2rem'
-  };
-
-  const cartButtonStyle = {
-    flex: 2,
-    backgroundColor: '#3498db',
-    color: 'white',
-    border: 'none',
-    padding: '1rem',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '1.1rem'
-  };
-
-  const wishlistButtonStyle = {
-    flex: 1,
-    backgroundColor: '#e74c3c',
-    color: 'white',
-    border: 'none',
-    padding: '1rem',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '1.1rem'
+    return 'â˜…'.repeat(Math.round(rating)) + 'â˜†'.repeat(5 - Math.round(rating));
   };
 
   if (loading) {
     return (
-      <div style={containerStyle}>
-        <h2>Loading product...</h2>
+      <div className="page">
+        <div className="container">
+          <div className="empty-state">Loading product...</div>
+        </div>
       </div>
     );
   }
 
-  if (!productData) {
+  if (!productData?.product) {
     return (
-      <div style={containerStyle}>
-        <h2>Product not found</h2>
+      <div className="page">
+        <div className="container">
+          <div className="empty-state">Product not found</div>
+        </div>
       </div>
     );
   }
@@ -144,69 +90,50 @@ const ProductDetail = () => {
   const { product, averageRating, reviewCount } = productData;
 
   return (
-    <div style={containerStyle}>
-      <button 
-        onClick={() => navigate(-1)}
-        style={{
-          padding: '0.5rem 1rem',
-          marginBottom: '2rem',
-          backgroundColor: '#95a5a6',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}
-      >
-        ← Back
-      </button>
+    <div className="page">
+      <div className="container stack">
+        <button className="btn btn--ghost" onClick={() => navigate(-1)}>
+          â† Back
+        </button>
 
-      <div style={productContainerStyle}>
-        <div>
-          <img src={product.image || 'https://via.placeholder.com/500'} alt={product.title} style={imageStyle} />
-        </div>
-        
-        <div>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '0.5rem', color: '#2c3e50' }}>{product.title}</h1>
-          
-          <div style={ratingStyle}>
-            {renderStars(averageRating)} ({reviewCount} reviews)
+        <div className="product-detail">
+          <div>
+            <img
+              src={product.image || 'https://via.placeholder.com/500'}
+              alt={product.title}
+              className="product-detail__image"
+            />
           </div>
-          
-          <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#34495e', marginBottom: '1rem' }}>
-            {product.description}
-          </p>
-          
-          <div style={priceStyle}>${product.price.toFixed(2)}</div>
-          
-          <div style={buttonContainerStyle}>
-            <button 
-              style={cartButtonStyle}
-              onClick={addToCart}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#2980b9'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#3498db'}
-            >
-              🛒 Add to Cart
-            </button>
-            
-            <button 
-              style={wishlistButtonStyle}
-              onClick={addToWishlist}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#c0392b'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#e74c3c'}
-            >
-              ❤️ Wishlist
-            </button>
+
+          <div className="summary-card stack">
+            <div>
+              <h1>{product.title}</h1>
+              <div className="muted">
+                {renderStars(averageRating)} ({reviewCount} reviews)
+              </div>
+            </div>
+
+            <p className="muted">{product.description}</p>
+
+            <div className="price">${product.price.toFixed(2)}</div>
+
+            <div className="stack">
+              <button className="btn btn--primary btn--block" onClick={addToCart}>
+                ðŸ›’ Add to Cart
+              </button>
+              <button className="btn btn--secondary btn--block" onClick={addToWishlist}>
+                â¤ï¸ Add to Wishlist
+              </button>
+            </div>
+
+            {product.category && (
+              <div className="badge">Category: {product.category}</div>
+            )}
           </div>
-          
-          {product.category && (
-            <p style={{ marginTop: '1rem', color: '#7f8c8d' }}>
-              Category: {product.category}
-            </p>
-          )}
         </div>
+
+        <ProductReviews productId={id} />
       </div>
-
-      <ProductReviews productId={id} />
     </div>
   );
 };

@@ -1,58 +1,47 @@
 import React from 'react';
 
 const Home = () => {
-  const containerStyle = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '2rem'
-  };
-
-  const heroStyle = {
-    backgroundColor: '#1976d2',
-    color: 'white',
-    padding: '4rem',
-    textAlign: 'center',
-    borderRadius: '8px',
-    marginBottom: '2rem'
-  };
-
-  const aboutStyle = {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '2rem',
-    marginTop: '2rem'
-  };
-
   return (
-    <div style={containerStyle}>
-      <div style={heroStyle}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-          Welcome to MyShop
-        </h1>
-        <p style={{ fontSize: '1.2rem' }}>
-          Your One-Stop Shop for Amazing Products
-        </p>
-      </div>
-
-      <div style={aboutStyle}>
-        <div>
-          <h2>About Us</h2>
-          <p>
-            We are passionate about providing the best quality products to our customers.
-            Our journey started in 2024 with a simple mission: to make online shopping
-            easy, affordable, and enjoyable for everyone.
+    <div className="page">
+      <div className="container">
+        <section className="hero">
+          <span className="badge">New season arrivals</span>
+          <h1 className="hero__title">Welcome to MyShop</h1>
+          <p className="hero__subtitle">
+            Your one-stop shop for standout essentials. Curated products, fast delivery,
+            and a checkout experience built for every device.
           </p>
-        </div>
-        
-        <div>
-          <h2>Why Choose Us?</h2>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            <li style={{ marginBottom: '0.5rem' }}>✓ High-quality products</li>
-            <li style={{ marginBottom: '0.5rem' }}>✓ Fast shipping</li>
-            <li style={{ marginBottom: '0.5rem' }}>✓ 24/7 customer support</li>
-            <li style={{ marginBottom: '0.5rem' }}>✓ Easy returns</li>
-          </ul>
-        </div>
+          <div className="filters__row">
+            <button className="btn btn--primary">Shop now</button>
+            <button className="btn btn--secondary">Browse collections</button>
+          </div>
+        </section>
+
+        <section className="feature-grid">
+          <div className="feature-card">
+            <h3>About Us</h3>
+            <p className="muted">
+              We launched in 2024 with a simple mission: make online shopping feel
+              effortless, trustworthy, and beautiful on every screen.
+            </p>
+          </div>
+          <div className="feature-card">
+            <h3>Why Choose Us?</h3>
+            <div className="grid-list">
+              <span>âœ“ Premium, handpicked products</span>
+              <span>âœ“ Lightning-fast fulfillment</span>
+              <span>âœ“ 24/7 customer care</span>
+              <span>âœ“ Easy returns, no stress</span>
+            </div>
+          </div>
+          <div className="feature-card">
+            <h3>Secure Checkout</h3>
+            <p className="muted">
+              Your data stays protected with modern security practices and a seamless
+              checkout flow built for speed.
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );
