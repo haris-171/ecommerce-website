@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -13,15 +13,7 @@ const Products = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    filterAndSortProducts();
-  }, [searchTerm, priceRange, sortBy, products]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       const res = await axios.get('/api/products');
       setProducts(res.data);
@@ -31,9 +23,9 @@ const Products = () => {
       console.error('Error fetching products:', error);
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filterAndSortProducts = () => {
+  const filterAndSortProducts = useCallback(() => {
     // First filter
     let filtered = products.filter(product => {
       const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -52,7 +44,15 @@ const Products = () => {
     }
 
     setFilteredProducts(filtered);
-  };
+  }, [products, priceRange.max, priceRange.min, searchTerm, sortBy]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    filterAndSortProducts();
+  }, [filterAndSortProducts]);
 
   const addToCart = async (productId, e) => {
     e.stopPropagation(); // Prevent navigation when clicking button

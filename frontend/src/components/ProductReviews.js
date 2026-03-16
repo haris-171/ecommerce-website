@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
@@ -11,11 +11,7 @@ const ProductReviews = ({ productId }) => {
   const [submitting, setSubmitting] = useState(false);
   const { user } = useAuth();
 
-  useEffect(() => {
-    fetchProductDetails();
-  }, [productId]);
-
-  const fetchProductDetails = async () => {
+  const fetchProductDetails = useCallback(async () => {
     try {
       const res = await axios.get(`/api/products/${productId}`);
       setReviews(res.data.reviews);
@@ -26,7 +22,11 @@ const ProductReviews = ({ productId }) => {
       console.error('Error fetching reviews:', error);
       setLoading(false);
     }
-  };
+  }, [productId]);
+
+  useEffect(() => {
+    fetchProductDetails();
+  }, [fetchProductDetails]);
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
