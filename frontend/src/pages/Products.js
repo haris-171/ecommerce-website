@@ -157,7 +157,7 @@ const Products = () => {
                       className="btn btn--primary btn--block"
                       onClick={(e) => addToCart(product._id, e)}
                     >
-                      Add to Cart ðŸ›’
+                      Add to Cart ›
                     </button>
                   </div>
                 ))}
