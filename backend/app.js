@@ -6,7 +6,6 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
-// Debug: Check if env vars are loading
 console.log('âœ… JWT_SECRET exists:', !!process.env.JWT_SECRET);
 console.log('âœ… JWT_SECRET value:', process.env.JWT_SECRET ? 'Set' : 'Not set');
 console.log('âœ… MONGODB_URI:', process.env.MONGODB_URI);
